@@ -8,23 +8,28 @@ public class TerrainGenerator : MonoBehaviour
 {
     // Configuration parameters
     [Header("Terrain Settings")]
-    [SerializeField] private int seed = 0;                    // Seed for random generation
+    [SerializeField] private int   seed = 0;                  // Seed for random generation
     [SerializeField] private float noiseScale = 50f;          // Scale of the noise (larger = smoother terrain)
     [SerializeField] private float heightMultiplier = 1f;     // Height multiplier for terrain
-    [SerializeField] private int octaves = 6;                 // Number of octaves for noise (more = more detail)
+    [SerializeField] private int   octaves = 6;               // Number of octaves for noise (more = more detail)
     [SerializeField] private float persistence = 0.6f;        // Persistence for noise (affects detail strength)
-    [SerializeField] private float lacunarity = 2f;          // Lacunarity for noise (affects detail scale)
-    [SerializeField] private float baseFrequency = 1f;       // Base frequency for noise
-    [SerializeField] private float waterLevel = 0.4f;        // Water level threshold (0-1)
+    [SerializeField] private float lacunarity = 2f;           // Lacunarity for noise (affects detail scale)
+    [SerializeField] private float baseFrequency = 1f;        // Base frequency for noise
+    [SerializeField] private float waterLevel = 0.4f;         // Water level threshold (0-1)
+    [SerializeField] private float sandLevel = 0.45f;         // Sand level threshold (0-1)
+    [SerializeField] private float stoneLevel = 0.5f;         // Stone level threshold (0-1)
+    [SerializeField] private float groundLevel = 0.55f;       // Ground level threshold (0-1)
 
     [Header("Block Settings")]
     [SerializeField] private GameObject groundBlockPrefab;    // Ground block prefab
+    [SerializeField] private GameObject sandBlockPrefab;      // Sand block prefab
     [SerializeField] private GameObject waterBlockPrefab;     // Water block prefab
-    [SerializeField] private float blockSize = 1f;           // Size of each block
+    [SerializeField] private GameObject stoneBlockPrefab;     // Stone block prefab
+    [SerializeField] private float blockSize = 1f;            // Size of each block
 
     [Header("Chunk Settings")]
-    [SerializeField] private int chunkSize = 16;             // Size of each chunk (16x16)
-    [SerializeField] private int viewDistance = 3;           // Number of chunks to generate in each direction
+    [SerializeField] private int chunkSize = 16;              // Size of each chunk (16x16)
+    [SerializeField] private int viewDistance = 3;            // Number of chunks to generate in each direction
 
     // Dictionary to store generated chunks
     private Dictionary<Vector2Int, TerrainChunk> chunks = new Dictionary<Vector2Int, TerrainChunk>();
@@ -108,7 +113,23 @@ public class TerrainGenerator : MonoBehaviour
                 float height = GenerateHeight(worldPos);
 
                 // Determine block type based on height
-                GameObject blockPrefab = height > waterLevel ? groundBlockPrefab : waterBlockPrefab;
+                GameObject blockPrefab;
+                if (height <= waterLevel)
+                {
+                    blockPrefab = waterBlockPrefab;
+                }
+                else if (height <= sandLevel)
+                {
+                    blockPrefab = sandBlockPrefab;
+                }
+                else if (height <= groundLevel)
+                {
+                    blockPrefab = groundBlockPrefab;
+                }
+                else
+                {
+                    blockPrefab = stoneBlockPrefab;  // This is the stone/ground block
+                }
 
                 // Create block
                 Vector3 blockPos = new Vector3(worldPos.x * blockSize, worldPos.y * blockSize, 0);
