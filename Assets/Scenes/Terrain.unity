@@ -220,9 +220,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7f89b93a4e5d7074ca4d733c781762e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 20
-  acceleration: 2
-  deceleration: 2
+  moveSpeed: 30
+  acceleration: 100
+  deceleration: 100
   cameraSmoothSpeed: 0.125
   cameraOffset: {x: 0, y: 0, z: -10}
 --- !u!1 &236319748
@@ -410,12 +410,13 @@ MonoBehaviour:
   noiseScale: 50
   heightMultiplier: 1
   octaves: 6
-  persistence: 0.6
+  persistence: 0.46
   lacunarity: 2
   baseFrequency: 1
   waterLevel: 0.4
   sandLevel: 0.45
   stoneLevel: 0.5
+  groundLevel: 0.55
   groundBlockPrefab: {fileID: 8328135255446900978, guid: ae444f3915b2a4545acd1ab512f9b8d6, type: 3}
   sandBlockPrefab: {fileID: 5321194755640702005, guid: bb1e3eba78b430e45b922dde2fddf571, type: 3}
   waterBlockPrefab: {fileID: 5321194755640702005, guid: 15539fe4553e9d348bc6203deff76668, type: 3}
